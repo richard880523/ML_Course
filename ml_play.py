@@ -2,12 +2,14 @@
 The template of the main script of the machine learning process
 """
 import pickle
+from os import path
+
 import numpy as np
 import games.arkanoid.communication as comm
 from games.arkanoid.communication import ( \
     SceneInfo, GameStatus, PlatformAction
 )
-import os.path as path
+
 
 
 def ml_loop():
@@ -25,12 +27,11 @@ def ml_loop():
     # === Here is the execution order of the loop === #
     # 1. Put the initialization code here.
     ball_served = False
-    filename = path.join(path.dirname(__file__),"save\clf_KMeans_BallAndDirection.pickle")
+    filename = path.join(path.dirname(__file__), 'save', 'clf_KMeans_BallAndDirection.pickle')
     with open(filename, 'rb') as file:
         clf = pickle.load(file)
-
-    # 2. Inform the game process that ml process is ready before start the loop.
     s = [93,93]
+    
     def get_direction(ball_x,ball_y,ball_pre_x,ball_pre_y):
         VectorX = ball_x - ball_pre_x
         VectorY = ball_y - ball_pre_y
@@ -42,9 +43,12 @@ def ml_loop():
             return 2
         elif(VectorX<0 and VectorY<0):
             return 3
-
+    
+    # 2. Inform the game process that ml process is ready before start the loop.
     comm.ml_ready()        
 
+    
+    
     # 3. Start an endless loop.
     while True:
         # 3.1. Receive the scene information sent from the game process.
