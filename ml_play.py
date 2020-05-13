@@ -21,7 +21,7 @@ def ml_loop(side: str):
     """
     ball_served = False
     
-    filename = path.join(path.dirname(__file__), 'ranf_mid.pickle')
+    filename = path.join(path.dirname(__file__), 'save', 'ranf_mid.pickle')
     with open(filename, 'rb') as file: # read binary
         clf = pickle.load(file)
     
